@@ -13,7 +13,7 @@ lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
 lvim.transparent_window = true
-
+vim.opt.relativenumber = true
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -142,7 +142,10 @@ lvim.plugins = {
       ft = {"fugitive"}
     },
   { "p00f/nvim-ts-rainbow" },
+{	 'tpope/vim-surround'},
+{	 'takac/vim-hardtime'},
 }
+vim.g.hardtime_default_on = 1
 require'nvim-treesitter.configs'.setup {
   rainbow = {
     enable = true,
@@ -152,6 +155,13 @@ require'nvim-treesitter.configs'.setup {
     -- termcolors = {} -- table of colour name strings
   }
 }
+
+vim.opt.clipboard ="" 
+
+-- Copy to clipboard
+vim.cmd('vnoremap  <leader>y  "+y')
+vim.cmd('nnoremap  <leader>y  "+y')
+vim.cmd('nnoremap  <leader>Y  "+yg_')
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
 --   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
