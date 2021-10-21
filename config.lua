@@ -11,7 +11,10 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
+vim.g.gitgutter_override_sign_column_highlight = 1
+vim.g.gruvbox_transparent_bg = 1
+
+lvim.colorscheme = "gruvbox"
 lvim.transparent_window = true
 vim.opt.relativenumber = true
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -32,29 +35,30 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   lvim.builtin.telescope.defaults.mappings.i["<C-n>"] = actions.cycle_history_next
 --   lvim.builtin.telescope.defaults.mappings.i["<C-p>"] = actions.cycle_history_prev
 --   -- for normal mode
---   lvim.builtin.telescope.defaults.mappings.n["<C-j>"] = actions.move_selection_next
+--   lvim.builtin.        telescope.defaults.mappings.n["<C-j>"] = actions.move_selection_next
 --   lvim.builtin.telescope.defaults.mappings.n["<C-k>"] = actions.move_selection_previous
 -- end
 
 -- Use which-key to add extra bindings with the leader-key prefix
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = {
---   name = "+Trouble",
---   r = { "<cmd>Trouble lsp_references<cr>", "References" },
---   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
---   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
---   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
--- }
+lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["t"] = {
+  name = "+Trouble",
+  r = { "<cmd>Trouble lsp_references<cr>", "References" },
+  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+  d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
+  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+  w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
+}
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
-
+lvim.builtin.nvimtree.show_icons.git = 1
+lvim.builtin.nvimtree.hide_dotfiles = 0
+lvim.builtin.telescope.defaults.pickers.find_files.find_command = { "fd", "--type=file", "--hidden", "--smart-case" }
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -122,30 +126,13 @@ lvim.plugins = {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
   },
-    {
-      "tpope/vim-fugitive",
-      cmd = {
-        "G",
-        "Git",
-        "Gdiffsplit",
-        "Gread",
-        "Gwrite",
-        "Ggrep",
-        "GMove",
-        "GDelete",
-        "GBrowse",
-        "GRemove",
-        "GRename",
-        "Glgrep",
-        "Gedit"
-      },
-      ft = {"fugitive"}
-    },
   { "p00f/nvim-ts-rainbow" },
 {	 'tpope/vim-surround'},
-{	 'takac/vim-hardtime'},
+  {'gustavobcampos/gruvbox'},
+		{'Yggdroot/indentLine'},
+  {'joshdick/onedark.vim'}
 }
-vim.g.hardtime_default_on = 1
+
 require'nvim-treesitter.configs'.setup {
   rainbow = {
     enable = true,
@@ -156,12 +143,20 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
-vim.opt.clipboard ="" 
+vim.opt.clipboard =""
 
 -- Copy to clipboard
 vim.cmd('vnoremap  <leader>y  "+y')
 vim.cmd('nnoremap  <leader>y  "+y')
 vim.cmd('nnoremap  <leader>Y  "+yg_')
+-- Paste from clipboard
+vim.cmd('nnoremap <leader>p "+p')
+vim.cmd('nnoremap <leader>P "+P')
+vim.cmd('vnoremap <leader>p "+p')
+vim.cmd('vnoremap <leader>P "+P')
+
+vim.cmd('nnoremap <leader>gg :G')
+
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
 --   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
