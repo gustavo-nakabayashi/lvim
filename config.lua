@@ -11,6 +11,7 @@ an executable
 lvim.builtin.dashboard.active = false
 lvim.builtin.terminal.active = true
 lvim.builtin.autopairs.active = false
+
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
@@ -26,7 +27,7 @@ lvim.leader = "space"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
 -- Use which-key to add extra bindings with the leader-key prefix
-lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+-- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
@@ -60,25 +61,23 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
--- set a formatter if you want to override the default lsp one (if it exists)
-lvim.lang.python.formatters = {
-  {
-    exe = "black",
-  }
+
+-- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+  { exe = "black", filetypes = { "python" } },
+  -- {
+  --   exe = "prettier",
+  --   filetypes = { "typescript", "typescriptreact" },
+  -- },
 }
 
-lvim.lang.lua.formatters = {
-
+-- -- set additional linters
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  { exe = "flake8", filetypes = { "python" } },
 }
 
--- set an additional linter
-lvim.lang.python.linters = {
-  {
-    exe = "flake8",
-  }
-}
-
--- Additional Plugins
 lvim.plugins = {
   {'michaeljsmith/vim-indent-object'},
   {'wellle/targets.vim'},
@@ -116,7 +115,7 @@ lvim.plugins = {
 {	 'tpope/vim-surround' },
  { 'mhinz/vim-grepper' },
   {'tpope/vim-repeat'},
-  {'gustavobcampos/gruvbox'},{
+   {'gustavobcampos/gruvbox'},{
   "norcalli/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup({ "*" }, {
@@ -149,7 +148,9 @@ lvim.plugins = {
   end
 },
   -- { 'junegunn/fzf.vim' },
-{ 'junegunn/fzf' },
+{ "bronson/vim-visual-star-search" },
+
+    { 'junegunn/fzf' },
   {'joshdick/onedark.vim'}
 }
 
@@ -165,18 +166,18 @@ require'nvim-treesitter.configs'.setup {
 
 vim.opt.clipboard =""
 
--- Copy to clipboard
-vim.cmd('vnoremap  <leader>y  "+y')
-vim.cmd('nnoremap  <leader>y  "+y')
-vim.cmd('nnoremap  <leader>Y  "+yg_')
--- Paste from clipboard
-vim.cmd('nnoremap <leader>p "+p')
-vim.cmd('nnoremap <leader>P "+P')
-vim.cmd('vnoremap <leader>p "+p')
-vim.cmd('vnoremap <leader>P "+P')
+-- -- Copy to clipboard
 
-vim.cmd('nnoremap <leader>bn :bnext<CR>')
-vim.cmd('nnoremap <leader>sw :GrepperGit <C-R><C-W><CR>')
+
+lvim.builtin.which_key.vmappings["y"] = { '"y', "Yank to clipboard" }
+lvim.builtin.which_key.mappings["y"] = { '"+y', "Yank to clipboard" }
+lvim.builtin.which_key.mappings["Y"] = { '"+yg_', "Yank line to clipboard" }
+lvim.builtin.which_key.mappings["sw"] = { ':GrepperGit <C-R><C-W><CR>', "Word" }
+
+lvim.builtin.which_key.vmappings["pp"] = { '"+p', "Paste from clipboard" }
+lvim.builtin.which_key.mappings["pp"] = { '"+p', "Paste from clipboard" }
+lvim.builtin.which_key.vmappings["pP"] = { '"+P', "Paste from clipboard" }
+lvim.builtin.which_key.mappings["pP"] = { '"+P', "Paste from clipboard" }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
