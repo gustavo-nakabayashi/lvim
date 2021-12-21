@@ -4,9 +4,10 @@ lvim.builtin.autopairs.active = false
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.format_on_save = false
 vim.g.gitgutter_override_sign_column_highlight = 1
 vim.g.gruvbox_transparent_bg = 1
+
 
 lvim.colorscheme = "gruvbox"
 lvim.transparent_window = true
@@ -22,7 +23,7 @@ lvim.builtin.which_key.mappings["t"] = {
   r = { "<cmd>Trouble lsp_references<cr>", "References" },
   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
   d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
-  q= { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
   w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
 }
@@ -62,6 +63,9 @@ linters.setup {
   { exe = "flake8", filetypes = { "python" } },
 }
 
+require'lspconfig'.theme_check.setup{
+  cmd = { 'theme-check-liquid-server' }
+  }
 lvim.plugins = {
   {'michaeljsmith/vim-indent-object'},
   {'wellle/targets.vim'},
@@ -135,7 +139,9 @@ lvim.plugins = {
   { "bronson/vim-visual-star-search" },
 
   { 'junegunn/fzf' },
-  {'joshdick/onedark.vim'}
+  { 'Shopify/tree-sitter-liquid-ii' },
+  { 'Pocco81/AutoSave.nvim' },
+  {'joshdick/onedark.vim'},
 }
 
 require'nvim-treesitter.configs'.setup {
@@ -149,20 +155,21 @@ require'nvim-treesitter.configs'.setup {
 }
 
 vim.opt.clipboard =""
-
 -- KEYBINDINGS 
 
 lvim.builtin.which_key.vmappings["y"] = { '"y', "Yank to clipboard" }
 lvim.builtin.which_key.mappings["y"] = { '"+y', "Yank to clipboard" }
 lvim.builtin.which_key.mappings["Y"] = { '"+yg_', "Yank line to clipboard" }
 lvim.builtin.which_key.mappings["sw"] = { ':GrepperGit <C-R><C-W><CR>', "Word" }
+lvim.builtin.which_key.mappings["sW"] = { ':GrepperGit <C-R><C-A><CR>', "Word" }
 
 lvim.builtin.which_key.vmappings["pp"] = { '"+p', "Paste from clipboard" }
 lvim.builtin.which_key.mappings["pp"] = { '"+p', "Paste from clipboard" }
 lvim.builtin.which_key.vmappings["pP"] = { '"+P', "Paste from clipboard" }
 lvim.builtin.which_key.mappings["pP"] = { '"+P', "Paste from clipboard" }
-
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- lvim.autocommands.custom_groups = {
---   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
--- }
+lvim.autocommands.custom_groups = {
+  { "FocusGained,BufEnter,CursorHold,CursorHoldI", "*", "if mode() != 'c' | checktime | endif" },
+  { "FileChangedShellPost ", "*", "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None" },
+}
+vim.g.autoread= true
