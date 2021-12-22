@@ -17,6 +17,13 @@ lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
+lvim.keys.normal_mode["<C-h>"] = ":lua require('harpoon.ui').nav_file(1)<CR>"
+lvim.keys.normal_mode["<C-j>"] = ":lua require('harpoon.ui').nav_file(2)<CR>"
+lvim.keys.normal_mode["<C-k>"] = ":lua require('harpoon.ui').nav_file(3)<CR>"
+lvim.keys.normal_mode["<C-l>"] = ":lua require('harpoon.ui').nav_file(4)<CR>"
+
+lvim.keys.normal_mode["<C-e>"] = ":lua require('harpoon.ui').toggle_quick_menu()<CR>"
+
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
   name = "+Trouble",
@@ -100,10 +107,10 @@ lvim.plugins = {
     end,
   },
   { "p00f/nvim-ts-rainbow" },
-  {	 'tpope/vim-surround' },
+  {	'tpope/vim-surround' },
   { 'mhinz/vim-grepper' },
-  {'tpope/vim-repeat'},
-  {'gustavobcampos/gruvbox'},{
+  { 'tpope/vim-repeat' },
+  { 'gustavobcampos/gruvbox' },{
     "norcalli/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup({ "*" }, {
@@ -136,8 +143,8 @@ lvim.plugins = {
     end
   },
   -- { 'junegunn/fzf.vim' },
-  { "bronson/vim-visual-star-search" },
-
+  { 'bronson/vim-visual-star-search' },
+  { 'ThePrimeagen/harpoon' },
   { 'junegunn/fzf' },
   { 'Shopify/tree-sitter-liquid-ii' },
   { 'Pocco81/AutoSave.nvim' },
@@ -167,6 +174,8 @@ lvim.builtin.which_key.vmappings["pp"] = { '"+p', "Paste from clipboard" }
 lvim.builtin.which_key.mappings["pp"] = { '"+p', "Paste from clipboard" }
 lvim.builtin.which_key.vmappings["pP"] = { '"+P', "Paste from clipboard" }
 lvim.builtin.which_key.mappings["pP"] = { '"+P', "Paste from clipboard" }
+lvim.builtin.which_key.mappings["a"] = { ':lua require("harpoon.mark").add_file()<CR>', "Add harpoon" }
+
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
   { "FocusGained,BufEnter,CursorHold,CursorHoldI", "*", "if mode() != 'c' | checktime | endif" },
