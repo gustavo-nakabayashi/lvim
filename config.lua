@@ -7,8 +7,10 @@ lvim.log.level = "warn"
 lvim.format_on_save = false
 vim.g.gitgutter_override_sign_column_highlight = 1
 vim.g.gruvbox_transparent_bg = 1
-
-
+vim.cmd(":set wrap")
+vim.cmd(":set linebreak")
+vim.cmd("nnoremap <expr> j v:count ? 'j' : 'gj'")
+vim.cmd("nnoremap <expr> k v:count ? 'k' : 'gk'")
 lvim.colorscheme = "gruvbox"
 lvim.transparent_window = true
 vim.opt.relativenumber = true
@@ -160,6 +162,24 @@ require'nvim-treesitter.configs'.setup {
     -- termcolors = {} -- table of colour name strings
   }
 }
+
+require("autosave").setup(
+    {
+        enabled = true,
+        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+        events = {"InsertLeave", "TextChanged"},
+        conditions = {
+            exists = true,
+            filename_is_not = {},
+            filetype_is_not = {},
+            modifiable = true
+        },
+        write_all_buffers = false,
+        on_off_commands = true,
+        clean_command_line_interval = 0,
+        debounce_delay = 135
+    }
+)
 
 vim.opt.clipboard =""
 -- KEYBINDINGS 
