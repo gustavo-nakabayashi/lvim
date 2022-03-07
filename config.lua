@@ -9,6 +9,9 @@ vim.g.gitgutter_override_sign_column_highlight = 1
 vim.g.gruvbox_transparent_bg = 1
 vim.cmd(":set wrap")
 vim.cmd(":set linebreak")
+vim.cmd(":set breakindent")
+vim.cmd(":set breakindentopt=shift:2,min:40,sbr")
+vim.cmd(":set showbreak=>>")
 vim.cmd("nnoremap <expr> j v:count ? 'j' : 'gj'")
 vim.cmd("nnoremap <expr> k v:count ? 'k' : 'gk'")
 lvim.colorscheme = "gruvbox"
