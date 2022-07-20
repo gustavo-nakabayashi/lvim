@@ -1,6 +1,4 @@
-lvim.builtin.dashboard.active = false
 lvim.builtin.terminal.active = true
-lvim.builtin.autopairs.active = false
 
 -- general
 lvim.log.level = "warn"
@@ -41,7 +39,6 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 1
 lvim.builtin.nvimtree.hide_dotfiles = 0
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -75,47 +72,21 @@ linters.setup {
   { exe = "flake8", filetypes = { "python" } },
 }
 
-require'lspconfig'.theme_check.setup{
+require 'lspconfig'.theme_check.setup {
   cmd = { 'theme-check-liquid-server' }
-  }
+}
 lvim.plugins = {
-  {'michaeljsmith/vim-indent-object'},
-  {'wellle/targets.vim'},
+  { 'michaeljsmith/vim-indent-object' },
+  { 'wellle/targets.vim' },
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
   },
-  {
-    "kevinhwang91/nvim-bqf",
-    event = { "BufRead", "BufNew" },
-    config = function()
-      require("bqf").setup({
-        auto_enable = true,
-        preview = {
-          win_height = 12,
-          win_vheight = 12,
-          delay_syntax = 80,
-          border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
-        },
-        func_map = {
-          vsplit = "",
-          ptogglemode = "z,",
-          stoggleup = "",
-        },
-        filter = {
-          fzf = {
-            action_for = { ["ctrl-s"] = "split" },
-            extra_opts = { "--bind", "ctrl-o:toggle-all", "--prompt", "> " },
-          },
-        },
-      })
-    end,
-  },
   { "p00f/nvim-ts-rainbow" },
-  {	'tpope/vim-surround' },
+  { 'tpope/vim-surround' },
   { 'mhinz/vim-grepper' },
   { 'tpope/vim-repeat' },
-  { 'gustavobcampos/gruvbox' },{
+  { 'gustavobcampos/gruvbox' }, {
     "norcalli/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup({ "*" }, {
@@ -135,14 +106,14 @@ lvim.plugins = {
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
-  },{
+  }, {
     "lukas-reineke/indent-blankline.nvim",
     event = "BufRead",
     setup = function()
       vim.g.indentLine_enabled = 1
       vim.g.indent_blankline_char = "▏"
-      vim.g.indent_blankline_filetype_exclude = {"help", "terminal", "dashboard"}
-      vim.g.indent_blankline_buftype_exclude = {"terminal"}
+      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
+      vim.g.indent_blankline_buftype_exclude = { "terminal" }
       vim.g.indent_blankline_show_trailing_blankline_indent = true
       vim.g.indent_blankline_show_first_indent_level = false
     end
@@ -153,39 +124,37 @@ lvim.plugins = {
   { 'junegunn/fzf' },
   { 'Shopify/tree-sitter-liquid-ii' },
   { 'Pocco81/AutoSave.nvim' },
-  {'joshdick/onedark.vim'},
+  { 'joshdick/onedark.vim' },
 }
 
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   rainbow = {
     enable = true,
     extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
     max_file_lines = nil, -- Do not enable for files with more than n lines, int
-    -- colors = {}, -- table of hex strings
-    -- termcolors = {} -- table of colour name strings
   }
 }
 
 require("autosave").setup(
-    {
-        enabled = true,
-        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-        events = {"InsertLeave", "TextChanged"},
-        conditions = {
-            exists = true,
-            filename_is_not = {},
-            filetype_is_not = {},
-            modifiable = true
-        },
-        write_all_buffers = false,
-        on_off_commands = true,
-        clean_command_line_interval = 0,
-        debounce_delay = 135
-    }
+  {
+    enabled = true,
+    execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+    events = { "InsertLeave", "TextChanged" },
+    conditions = {
+      exists = true,
+      filename_is_not = {},
+      filetype_is_not = {},
+      modifiable = true
+    },
+    write_all_buffers = false,
+    on_off_commands = true,
+    clean_command_line_interval = 0,
+    debounce_delay = 135
+  }
 )
 
-vim.opt.clipboard =""
--- KEYBINDINGS 
+vim.opt.clipboard = ""
+-- KEYBINDINGS
 
 lvim.builtin.which_key.vmappings["y"] = { '"y', "Yank to clipboard" }
 lvim.builtin.which_key.mappings["y"] = { '"+y', "Yank to clipboard" }
@@ -200,8 +169,20 @@ lvim.builtin.which_key.mappings["pP"] = { '"+P', "Paste from clipboard" }
 lvim.builtin.which_key.mappings["a"] = { ':lua require("harpoon.mark").add_file()<CR>', "Add harpoon" }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
-lvim.autocommands.custom_groups = {
-  { "FocusGained,BufEnter,CursorHold,CursorHoldI", "*", "if mode() != 'c' | checktime | endif" },
-  { "FileChangedShellPost ", "*", "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None" },
+lvim.autocommands = {
+  {
+    "FocusGained,BufEnter,CursorHold,CursorHoldI",
+    {
+      pattern = {"*"},
+      command = "if mode() != 'c' | checktime | endif",
+    }
+  },
+  {
+    "FileChangedShellPost ",
+    {
+      pattern = { "*" },
+      command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
+    },
+  }
 }
-vim.g.autoread= true
+vim.g.autoread = true
