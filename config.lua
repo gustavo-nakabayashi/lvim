@@ -72,10 +72,17 @@ linters.setup {
   { exe = "flake8", filetypes = { "python" } },
 }
 
-require 'lspconfig'.theme_check.setup {
-  cmd = { 'theme-check-liquid-server' }
+require 'lspconfig'.tailwindcss.setup {
+  filetypes = { "aspnetcorerazor", "astro", "astro-markdown", "blade", "django-html", "htmldjango", "edge", "eelixir", "ejs", "erb", "eruby", "gohtml", "haml", "handlebars", "hbs", "html", "html-eex", "heex", "jade", "leaf", "liquid", "markdown", "mdx", "mustache", "njk", "nunjucks", "php", "razor", "slim", "twig", "css", "less", "postcss", "sass", "scss", "stylus", "sugarss", "javascript", "javascriptreact", "reason", "rescript", "typescript", "typescriptreact", "vue", "svelte","liquid" }
 }
+
+require 'lspconfig'.theme_check.setup {
+  cmd = { 'theme-check-language-server' },
+  filetypes = { "liquid" }
+}
+
 lvim.plugins = {
+  { 'mattn/emmet-vim' },
   { 'michaeljsmith/vim-indent-object' },
   { 'wellle/targets.vim' },
   {
@@ -86,20 +93,7 @@ lvim.plugins = {
   { 'tpope/vim-surround' },
   { 'mhinz/vim-grepper' },
   { 'tpope/vim-repeat' },
-  { 'gustavobcampos/gruvbox' }, {
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup({ "*" }, {
-        RGB = true, -- #RGB hex codes
-        RRGGBB = true, -- #RRGGBB hex codes
-        RRGGBBAA = true, -- #RRGGBBAA hex codes
-        rgb_fn = true, -- CSS rgb() and rgba() functions
-        hsl_fn = true, -- CSS hsl() and hsla() functions
-        css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-      })
-    end,
-  },
+  { 'gustavobcampos/gruvbox' },
   {
     "andymass/vim-matchup",
     event = "CursorMoved",
@@ -116,6 +110,9 @@ lvim.plugins = {
       vim.g.indent_blankline_buftype_exclude = { "terminal" }
       vim.g.indent_blankline_show_trailing_blankline_indent = true
       vim.g.indent_blankline_show_first_indent_level = false
+      vim.g.indent_blankline_show_current_context = true
+      vim.g.indent_blankline_show_current_context_start = true
+      vim.g.indent_blankline_space_char_blankline = ""
     end
   },
   -- { 'junegunn/fzf.vim' },
