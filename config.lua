@@ -81,7 +81,12 @@ require 'lspconfig'.theme_check.setup {
   filetypes = { "liquid" }
 }
 
+require 'lspconfig'.jsonls.setup {
+  filetypes = { "json", "jsonc", "liquid" }
+}
+
 lvim.plugins = {
+  { 'f-person/git-blame.nvim' },
   { 'mattn/emmet-vim' },
   { 'michaeljsmith/vim-indent-object' },
   { 'wellle/targets.vim' },
@@ -153,7 +158,7 @@ require("autosave").setup(
 vim.opt.clipboard = ""
 -- KEYBINDINGS
 
-lvim.builtin.which_key.vmappings["y"] = { '"y', "Yank to clipboard" }
+lvim.builtin.which_key.vmappings["y"] = { '"+y', "Yank to clipboard" }
 lvim.builtin.which_key.mappings["y"] = { '"+y', "Yank to clipboard" }
 lvim.builtin.which_key.mappings["Y"] = { '"+yg_', "Yank line to clipboard" }
 lvim.builtin.which_key.mappings["sw"] = { ':GrepperGit <C-R><C-W><CR>', "Word" }
