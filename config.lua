@@ -61,10 +61,10 @@ lvim.builtin.treesitter.highlight.enabled = true
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { exe = "black", filetypes = { "python" } },
-  -- {
-  --   exe = "prettier",
-  --   filetypes = { "typescript", "typescriptreact" },
-  -- },
+  {
+    exe = "prettier",
+    filetypes = { "typescript", "typescriptreact", "liquid" },
+  },
 }
 
 local linters = require "lvim.lsp.null-ls.linters"
@@ -125,9 +125,9 @@ lvim.plugins = {
   { 'ThePrimeagen/harpoon' },
   { 'junegunn/fzf' },
   { 'Shopify/tree-sitter-liquid-ii' },
-  { 'Pocco81/AutoSave.nvim' },
-  { 'joshdick/onedark.vim' },
+  { 'Pocco81/auto-save.nvim' },
 }
+
 
 require 'nvim-treesitter.configs'.setup {
   rainbow = {
@@ -136,24 +136,6 @@ require 'nvim-treesitter.configs'.setup {
     max_file_lines = nil, -- Do not enable for files with more than n lines, int
   }
 }
-
-require("autosave").setup(
-  {
-    enabled = true,
-    execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-    events = { "InsertLeave", "TextChanged" },
-    conditions = {
-      exists = true,
-      filename_is_not = {},
-      filetype_is_not = {},
-      modifiable = true
-    },
-    write_all_buffers = false,
-    on_off_commands = true,
-    clean_command_line_interval = 0,
-    debounce_delay = 135
-  }
-)
 
 vim.opt.clipboard = ""
 -- KEYBINDINGS
@@ -175,7 +157,7 @@ lvim.autocommands = {
   {
     "FocusGained,BufEnter,CursorHold,CursorHoldI",
     {
-      pattern = {"*"},
+      pattern = { "*" },
       command = "if mode() != 'c' | checktime | endif",
     }
   },
