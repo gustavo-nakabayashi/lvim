@@ -4,7 +4,7 @@ lvim.builtin.terminal.active = true
 lvim.log.level = "warn"
 lvim.format_on_save = false
 vim.g.gitgutter_override_sign_column_highlight = 1
-vim.g.gruvbox_transparent_bg = 1
+-- vim.g.gruvbox_transparent_bg = 1
 vim.cmd(":set wrap")
 vim.cmd(":set linebreak")
 vim.cmd(":set breakindent")
@@ -13,7 +13,7 @@ vim.cmd(":set showbreak=>>")
 vim.cmd("nnoremap <expr> j v:count ? 'j' : 'gj'")
 vim.cmd("nnoremap <expr> k v:count ? 'k' : 'gk'")
 lvim.colorscheme = "gruvbox"
-lvim.transparent_window = true
+-- lvim.transparent_window = true
 vim.opt.relativenumber = true
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -73,27 +73,17 @@ linters.setup {
 }
 
 require 'lspconfig'.tailwindcss.setup {
-  filetypes = { "aspnetcorerazor", "astro", "astro-markdown", "blade", "django-html", "htmldjango", "edge", "eelixir", "ejs", "erb", "eruby", "gohtml", "haml", "handlebars", "hbs", "html", "html-eex", "heex", "jade", "leaf", "liquid", "markdown", "mdx", "mustache", "njk", "nunjucks", "php", "razor", "slim", "twig", "css", "less", "postcss", "sass", "scss", "stylus", "sugarss", "javascript", "javascriptreact", "reason", "rescript", "typescript", "typescriptreact", "vue", "svelte","liquid" }
+  filetypes = {  "html", "html-eex", "heex", "jade", "leaf", "liquid", "markdown", "mdx", "mustache", "njk", "nunjucks", "php", "razor", "slim", "twig", "css", "less", "postcss", "sass", "scss", "stylus", "sugarss", "javascript", "javascriptreact", "reason", "rescript", "typescript", "typescriptreact", "vue", "svelte", "liquid" }
 }
 
-require 'lspconfig'.theme_check.setup {
-  cmd = { 'theme-check-language-server' },
-  filetypes = { "liquid" }
-}
-
-require 'lspconfig'.jsonls.setup {
-  filetypes = { "json", "jsonc", "liquid" }
-}
+require 'lspconfig'.theme_check.setup {}
 
 lvim.plugins = {
   { 'f-person/git-blame.nvim' },
   { 'mattn/emmet-vim' },
   { 'michaeljsmith/vim-indent-object' },
-  { 'wellle/targets.vim' }, -- adds various text objects to give you more targets to operate on. 
-  {
-    "folke/trouble.nvim",
-    cmd = "TroubleToggle",
-  },
+  { 'wellle/targets.vim' }, -- adds various text objects to give you more targets to operate on.
+  { "folke/trouble.nvim", cmd = "TroubleToggle", },
   { "p00f/nvim-ts-rainbow" },
   { 'tpope/vim-surround' },
   { 'mhinz/vim-grepper' },
@@ -105,27 +95,14 @@ lvim.plugins = {
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "popup" }
     end,
-  }, {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufRead",
-    setup = function()
-      vim.g.indentLine_enabled = 1
-      vim.g.indent_blankline_char = "▏"
-      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
-      vim.g.indent_blankline_buftype_exclude = { "terminal" }
-      vim.g.indent_blankline_show_trailing_blankline_indent = true
-      vim.g.indent_blankline_show_first_indent_level = false
-      vim.g.indent_blankline_show_current_context = true
-      vim.g.indent_blankline_show_current_context_start = true
-      vim.g.indent_blankline_space_char_blankline = ""
-    end
   },
-  -- { 'junegunn/fzf.vim' },
   { 'bronson/vim-visual-star-search' },
   { 'ThePrimeagen/harpoon' },
   { 'junegunn/fzf' },
-  { 'Shopify/tree-sitter-liquid-ii' },
   { 'Pocco81/auto-save.nvim' },
+  { 'djoshea/vim-autoread' },
+  { 'nvim-treesitter/nvim-treesitter-context' },
+  { "sindrets/diffview.nvim", event = "BufRead", },
 }
 
 
@@ -153,20 +130,20 @@ lvim.builtin.which_key.mappings["pP"] = { '"+P', "Paste from clipboard" }
 lvim.builtin.which_key.mappings["a"] = { ':lua require("harpoon.mark").add_file()<CR>', "Add harpoon" }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
-lvim.autocommands = {
-  {
-    "FocusGained,BufEnter,CursorHold,CursorHoldI",
-    {
-      pattern = { "*" },
-      command = "if mode() != 'c' | checktime | endif",
-    }
-  },
-  {
-    "FileChangedShellPost ",
-    {
-      pattern = { "*" },
-      command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
-    },
-  }
-}
+-- lvim.autocommands = {
+--   {
+--     "FocusGained,BufEnter,CursorHold,CursorHoldI",
+--     {
+--       pattern = { "*" },
+--       command = "if mode() != 'c' | checktime | endif",
+--     }
+--   },
+--   {
+--     "FileChangedShellPost",
+--     {
+--       pattern = { "*" },
+--       command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
+--     },
+--   }
+-- }
 vim.g.autoread = true
