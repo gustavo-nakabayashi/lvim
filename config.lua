@@ -49,8 +49,6 @@ lvim.builtin.treesitter.ensure_installed = {
   "python",
   "typescript",
   "css",
-  "rust",
-  "java",
   "yaml",
 }
 
@@ -79,6 +77,8 @@ require 'lspconfig'.tailwindcss.setup {
 require 'lspconfig'.theme_check.setup {}
 
 lvim.plugins = {
+  { 'kana/vim-textobj-user' },
+  { 'kana/vim-textobj-entire' },
   { 'f-person/git-blame.nvim' },
   { 'mattn/emmet-vim' },
   { 'michaeljsmith/vim-indent-object' },
@@ -88,6 +88,7 @@ lvim.plugins = {
   { 'tpope/vim-surround' },
   { 'mhinz/vim-grepper' },
   { 'tpope/vim-repeat' },
+  {'lukas-reineke/indent-blankline.nvim'},
   { 'gustavobcampos/gruvbox' },
   {
     "andymass/vim-matchup", -- It extends vim's % key to language-specific words instead of just single characters.
@@ -105,6 +106,9 @@ lvim.plugins = {
   { "sindrets/diffview.nvim", event = "BufRead", },
 }
 
+require("indent_blankline").setup {
+  filetype_exclude = { "dashboard" }
+}
 
 require 'nvim-treesitter.configs'.setup {
   rainbow = {
